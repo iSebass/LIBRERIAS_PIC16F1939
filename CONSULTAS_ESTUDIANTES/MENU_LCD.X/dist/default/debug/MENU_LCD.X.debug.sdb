@@ -1,0 +1,342 @@
+[p GLOBOPT AUTOSTATIC IEEE_DBL IEEE_FLT PIC14 PIC14E ]
+[d version 1.1 ]
+[d edition pro ]
+[d chip 16F1939 ]
+[d frameptr 6 ]
+"17 E:\UCEVA\2023B\MENU_LCD.X\main.c
+[e E3057 . `uc
+MPPAL 0
+MSENSORES 1
+MLEDS 2
+MMOTORES 3
+ML1 4
+ML2 5
+ML3 6
+MMOTORA 7
+MMOTORB 8
+]
+"10 C:\Program Files\Microchip\xc8\v2.41\pic\sources\c99\common\sprcadd.c
+[v ___fladd __fladd `(d  1 e 4 0 ]
+"4 C:\Program Files\Microchip\xc8\v2.41\pic\sources\c99\common\Umul8_16.c
+[v __Umul8_16 _Umul8_16 `(ui  1 e 2 0 ]
+"6 C:\Program Files\Microchip\xc8\v2.41\pic\sources\c99\pic\__eeprom.c
+[v ___eecpymem __eecpymem `(v  1 e 1 0 ]
+"39
+[v ___memcpyee __memcpyee `(v  1 e 1 0 ]
+"6 E:\UCEVA\2023B\MENU_LCD.X\LCD_LIB.c
+[v _Load_Cmd Load_Cmd `(v  1 s 1 Load_Cmd ]
+"20
+[v _Load_Data Load_Data `(v  1 s 1 Load_Data ]
+"37
+[v _LCD_Init LCD_Init `(v  1 e 1 0 ]
+"64
+[v _LCD_Cmd LCD_Cmd `(v  1 e 1 0 ]
+"72
+[v _LCD_Write_Cp LCD_Write_Cp `(v  1 e 1 0 ]
+"90
+[v _LCD_Set_Cursor LCD_Set_Cursor `(v  1 e 1 0 ]
+"100
+[v _LCD_Write LCD_Write `(v  1 e 1 0 ]
+"104
+[v _LCD_Write_Text LCD_Write_Text `(v  1 e 1 0 ]
+"19 E:\UCEVA\2023B\MENU_LCD.X\main.c
+[v _main main `(v  1 e 1 0 ]
+"19 E:\UCEVA\2023B\MENU_LCD.X\Menu.c
+[v _SystemInit SystemInit `(v  1 e 1 0 ]
+"101
+[v _MenuPPAL MenuPPAL `(v  1 e 1 0 ]
+"109
+[v _MenuSensores MenuSensores `(v  1 e 1 0 ]
+"116
+[v _MenuMotores MenuMotores `(v  1 e 1 0 ]
+"123
+[v _MenuLeds MenuLeds `(v  1 e 1 0 ]
+"131
+[v _MenuL1 MenuL1 `(v  1 e 1 0 ]
+"138
+[v _MenuL2 MenuL2 `(v  1 e 1 0 ]
+"145
+[v _MenuL3 MenuL3 `(v  1 e 1 0 ]
+"152
+[v _MenuMOTORA MenuMOTORA `(v  1 e 1 0 ]
+"159
+[v _MenuMOTORB MenuMOTORB `(v  1 e 1 0 ]
+[s S291 . 1 `uc 1 TRISA0 1 0 :1:0 
+`uc 1 TRISA1 1 0 :1:1 
+`uc 1 TRISA2 1 0 :1:2 
+`uc 1 TRISA3 1 0 :1:3 
+`uc 1 TRISA4 1 0 :1:4 
+`uc 1 TRISA5 1 0 :1:5 
+`uc 1 TRISA6 1 0 :1:6 
+`uc 1 TRISA7 1 0 :1:7 
+]
+"1330 C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC12-16F1xxx_DFP/1.6.241/xc8\pic\include\proc\pic16f1939.h
+[u S300 . 1 `S291 1 . 1 0 ]
+[v _TRISAbits TRISAbits `VES300  1 e 1 @140 ]
+[s S334 . 1 `uc 1 TRISB0 1 0 :1:0 
+`uc 1 TRISB1 1 0 :1:1 
+`uc 1 TRISB2 1 0 :1:2 
+`uc 1 TRISB3 1 0 :1:3 
+`uc 1 TRISB4 1 0 :1:4 
+`uc 1 TRISB5 1 0 :1:5 
+`uc 1 TRISB6 1 0 :1:6 
+`uc 1 TRISB7 1 0 :1:7 
+]
+"1392
+[u S343 . 1 `S334 1 . 1 0 ]
+[v _TRISBbits TRISBbits `VES343  1 e 1 @141 ]
+[s S197 . 1 `uc 1 TRISD0 1 0 :1:0 
+`uc 1 TRISD1 1 0 :1:1 
+`uc 1 TRISD2 1 0 :1:2 
+`uc 1 TRISD3 1 0 :1:3 
+`uc 1 TRISD4 1 0 :1:4 
+`uc 1 TRISD5 1 0 :1:5 
+`uc 1 TRISD6 1 0 :1:6 
+`uc 1 TRISD7 1 0 :1:7 
+]
+"1516
+[u S206 . 1 `S197 1 . 1 0 ]
+[v _TRISDbits TRISDbits `VES206  1 e 1 @143 ]
+"1957
+[v _OSCTUNE OSCTUNE `VEuc  1 e 1 @152 ]
+"2015
+[v _OSCCON OSCCON `VEuc  1 e 1 @153 ]
+"2156
+[v _ADRESL ADRESL `VEuc  1 e 1 @155 ]
+"2176
+[v _ADRESH ADRESH `VEuc  1 e 1 @156 ]
+[s S114 . 1 `uc 1 ADON 1 0 :1:0 
+`uc 1 GO_nDONE 1 0 :1:1 
+`uc 1 CHS 1 0 :5:2 
+]
+"2225
+[s S118 . 1 `uc 1 . 1 0 :1:0 
+`uc 1 ADGO 1 0 :1:1 
+`uc 1 CHS0 1 0 :1:2 
+`uc 1 CHS1 1 0 :1:3 
+`uc 1 CHS2 1 0 :1:4 
+`uc 1 CHS3 1 0 :1:5 
+`uc 1 CHS4 1 0 :1:6 
+]
+[s S126 . 1 `uc 1 . 1 0 :1:0 
+`uc 1 GO 1 0 :1:1 
+]
+[s S129 . 1 `uc 1 . 1 0 :1:0 
+`uc 1 nDONE 1 0 :1:1 
+]
+[u S132 . 1 `S114 1 . 1 0 `S118 1 . 1 0 `S126 1 . 1 0 `S129 1 . 1 0 ]
+[v _ADCON0bits ADCON0bits `VES132  1 e 1 @157 ]
+[s S84 . 1 `uc 1 ADPREF 1 0 :2:0 
+`uc 1 ADNREF 1 0 :1:2 
+`uc 1 . 1 0 :1:3 
+`uc 1 ADCS 1 0 :3:4 
+`uc 1 ADFM 1 0 :1:7 
+]
+"2307
+[s S90 . 1 `uc 1 ADPREF0 1 0 :1:0 
+`uc 1 ADPREF1 1 0 :1:1 
+`uc 1 . 1 0 :2:2 
+`uc 1 ADCS0 1 0 :1:4 
+`uc 1 ADCS1 1 0 :1:5 
+`uc 1 ADCS2 1 0 :1:6 
+]
+[u S97 . 1 `S84 1 . 1 0 `S90 1 . 1 0 ]
+[v _ADCON1bits ADCON1bits `VES97  1 e 1 @158 ]
+[s S355 . 1 `uc 1 LATA0 1 0 :1:0 
+`uc 1 LATA1 1 0 :1:1 
+`uc 1 LATA2 1 0 :1:2 
+`uc 1 LATA3 1 0 :1:3 
+`uc 1 LATA4 1 0 :1:4 
+`uc 1 LATA5 1 0 :1:5 
+`uc 1 LATA6 1 0 :1:6 
+`uc 1 LATA7 1 0 :1:7 
+]
+"2374
+[u S364 . 1 `S355 1 . 1 0 ]
+[v _LATAbits LATAbits `VES364  1 e 1 @268 ]
+[s S376 . 1 `uc 1 LATB0 1 0 :1:0 
+`uc 1 LATB1 1 0 :1:1 
+`uc 1 LATB2 1 0 :1:2 
+`uc 1 LATB3 1 0 :1:3 
+`uc 1 LATB4 1 0 :1:4 
+`uc 1 LATB5 1 0 :1:5 
+`uc 1 LATB6 1 0 :1:6 
+`uc 1 LATB7 1 0 :1:7 
+]
+"2436
+[u S385 . 1 `S376 1 . 1 0 ]
+[v _LATBbits LATBbits `VES385  1 e 1 @269 ]
+[s S169 . 1 `uc 1 LATD0 1 0 :1:0 
+`uc 1 LATD1 1 0 :1:1 
+`uc 1 LATD2 1 0 :1:2 
+`uc 1 LATD3 1 0 :1:3 
+`uc 1 LATD4 1 0 :1:4 
+`uc 1 LATD5 1 0 :1:5 
+`uc 1 LATD6 1 0 :1:6 
+`uc 1 LATD7 1 0 :1:7 
+]
+"2563
+[s S178 . 1 `uc 1 LATD 1 0 :8:0 
+]
+[u S180 . 1 `S169 1 . 1 0 `S178 1 . 1 0 ]
+[v _LATDbits LATDbits `VES180  1 e 1 @271 ]
+"2923
+[v _BORCON BORCON `VEuc  1 e 1 @278 ]
+[s S269 . 1 `uc 1 ANSA0 1 0 :1:0 
+`uc 1 ANSA1 1 0 :1:1 
+`uc 1 ANSA2 1 0 :1:2 
+`uc 1 ANSA3 1 0 :1:3 
+`uc 1 ANSA4 1 0 :1:4 
+`uc 1 ANSA5 1 0 :1:5 
+]
+"3346
+[s S276 . 1 `uc 1 ANSELA 1 0 :6:0 
+]
+[u S278 . 1 `S269 1 . 1 0 `S276 1 . 1 0 ]
+[v _ANSELAbits ANSELAbits `VES278  1 e 1 @396 ]
+[s S312 . 1 `uc 1 ANSB0 1 0 :1:0 
+`uc 1 ANSB1 1 0 :1:1 
+`uc 1 ANSB2 1 0 :1:2 
+`uc 1 ANSB3 1 0 :1:3 
+`uc 1 ANSB4 1 0 :1:4 
+`uc 1 ANSB5 1 0 :1:5 
+]
+"3404
+[s S319 . 1 `uc 1 ANSELB 1 0 :6:0 
+]
+[u S321 . 1 `S312 1 . 1 0 `S319 1 . 1 0 ]
+[v _ANSELBbits ANSELBbits `VES321  1 e 1 @397 ]
+"19 E:\UCEVA\2023B\MENU_LCD.X\main.c
+[v _main main `(v  1 e 1 0 ]
+{
+"42
+} 0
+"19 E:\UCEVA\2023B\MENU_LCD.X\Menu.c
+[v _SystemInit SystemInit `(v  1 e 1 0 ]
+{
+"68
+} 0
+"37 E:\UCEVA\2023B\MENU_LCD.X\LCD_LIB.c
+[v _LCD_Init LCD_Init `(v  1 e 1 0 ]
+{
+"63
+} 0
+"109 E:\UCEVA\2023B\MENU_LCD.X\Menu.c
+[v _MenuSensores MenuSensores `(v  1 e 1 0 ]
+{
+"115
+} 0
+"101
+[v _MenuPPAL MenuPPAL `(v  1 e 1 0 ]
+{
+"108
+} 0
+"100 E:\UCEVA\2023B\MENU_LCD.X\LCD_LIB.c
+[v _LCD_Write LCD_Write `(v  1 e 1 0 ]
+{
+[v LCD_Write@fila fila `uc  1 a 1 wreg ]
+[v LCD_Write@fila fila `uc  1 a 1 wreg ]
+[v LCD_Write@col col `uc  1 p 1 10 ]
+[v LCD_Write@letra letra `uc  1 p 1 11 ]
+[v LCD_Write@fila fila `uc  1 a 1 12 ]
+"103
+} 0
+"116 E:\UCEVA\2023B\MENU_LCD.X\Menu.c
+[v _MenuMotores MenuMotores `(v  1 e 1 0 ]
+{
+"122
+} 0
+"159
+[v _MenuMOTORB MenuMOTORB `(v  1 e 1 0 ]
+{
+"165
+} 0
+"152
+[v _MenuMOTORA MenuMOTORA `(v  1 e 1 0 ]
+{
+"158
+} 0
+"123
+[v _MenuLeds MenuLeds `(v  1 e 1 0 ]
+{
+"129
+} 0
+"145
+[v _MenuL3 MenuL3 `(v  1 e 1 0 ]
+{
+"151
+} 0
+"138
+[v _MenuL2 MenuL2 `(v  1 e 1 0 ]
+{
+"144
+} 0
+"131
+[v _MenuL1 MenuL1 `(v  1 e 1 0 ]
+{
+"137
+} 0
+"104 E:\UCEVA\2023B\MENU_LCD.X\LCD_LIB.c
+[v _LCD_Write_Text LCD_Write_Text `(v  1 e 1 0 ]
+{
+[v LCD_Write_Text@fila fila `uc  1 a 1 wreg ]
+[v LCD_Write_Text@fila fila `uc  1 a 1 wreg ]
+[v LCD_Write_Text@col col `uc  1 p 1 10 ]
+[v LCD_Write_Text@text text `*.25uc  1 p 2 11 ]
+[v LCD_Write_Text@fila fila `uc  1 a 1 0 ]
+"110
+} 0
+"72
+[v _LCD_Write_Cp LCD_Write_Cp `(v  1 e 1 0 ]
+{
+[v LCD_Write_Cp@letra letra `uc  1 a 1 wreg ]
+"73
+[v LCD_Write_Cp@NibbleL NibbleL `uc  1 a 1 3 ]
+[v LCD_Write_Cp@NibbleH NibbleH `uc  1 a 1 2 ]
+"72
+[v LCD_Write_Cp@letra letra `uc  1 a 1 wreg ]
+"74
+[v LCD_Write_Cp@letra letra `uc  1 a 1 4 ]
+"79
+} 0
+"20
+[v _Load_Data Load_Data `(v  1 s 1 Load_Data ]
+{
+[v Load_Data@data data `uc  1 a 1 wreg ]
+[v Load_Data@data data `uc  1 a 1 wreg ]
+[v Load_Data@data data `uc  1 a 1 0 ]
+"34
+} 0
+"90
+[v _LCD_Set_Cursor LCD_Set_Cursor `(v  1 e 1 0 ]
+{
+[v LCD_Set_Cursor@fila fila `uc  1 a 1 wreg ]
+"91
+[v LCD_Set_Cursor@pos pos `uc  1 a 1 9 ]
+"90
+[v LCD_Set_Cursor@fila fila `uc  1 a 1 wreg ]
+[v LCD_Set_Cursor@col col `uc  1 p 1 5 ]
+[v LCD_Set_Cursor@fila fila `uc  1 a 1 8 ]
+"99
+} 0
+"64
+[v _LCD_Cmd LCD_Cmd `(v  1 e 1 0 ]
+{
+[v LCD_Cmd@cmd cmd `uc  1 a 1 wreg ]
+"65
+[v LCD_Cmd@NibbleL NibbleL `uc  1 a 1 3 ]
+[v LCD_Cmd@NibbleH NibbleH `uc  1 a 1 2 ]
+"64
+[v LCD_Cmd@cmd cmd `uc  1 a 1 wreg ]
+"66
+[v LCD_Cmd@cmd cmd `uc  1 a 1 4 ]
+"71
+} 0
+"6
+[v _Load_Cmd Load_Cmd `(v  1 s 1 Load_Cmd ]
+{
+[v Load_Cmd@cmd cmd `uc  1 a 1 wreg ]
+[v Load_Cmd@cmd cmd `uc  1 a 1 wreg ]
+[v Load_Cmd@cmd cmd `uc  1 a 1 0 ]
+"19
+} 0
