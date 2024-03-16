@@ -38,7 +38,14 @@ void lcd_command(uint8_t cmd){
 }
 
 void lcd_init(){
-    
+
+    _LCD_ANSEL &= ~((1<<_LCD_RS)|
+                    (1<<_LCD_EN)|
+                    (1<<_LCD_D4)|
+                    (1<<_LCD_D5)|
+                    (1<<_LCD_D6)|
+                    (1<<_LCD_D7));
+	
     _LCD_DDR &= ~( (1<<_LCD_RS)|
                    (1<<_LCD_EN)|
                    (1<<_LCD_D4)|
@@ -46,7 +53,7 @@ void lcd_init(){
                    (1<<_LCD_D6)|
                    (1<<_LCD_D7));
     
-    _LCD_PORT &= ~( (1<<_LCD_RS)|
+    _LCD_PORT &= ~((1<<_LCD_RS)|
                    (1<<_LCD_EN)|
                    (1<<_LCD_D4)|
                    (1<<_LCD_D5)|
