@@ -1,110 +1,167 @@
 #include "LCD_LIB.h"
+#include "config.h"
+#include <stdint.h>
 
-static void Load_Data(char data);
-static void Load_Cmd(char cmd);
+static uint8_t _lcd_params;
 
-static void Load_Cmd(char cmd){
-    LAT_RS = 0;
+void _write_nibble(uint8_t nibble);
+void _send_byte(uint8_t value, uint8_t mode);
+
+void _write_nibble(uint8_t nibble){
+    if( (nibble & 0x01) == 0) _LCD_PORT &= ~(1<<_LCD_D4); else _LCD_PORT |= (1<<_LCD_D4);
+    if( (nibble & 0x02) == 0) _LCD_PORT &= ~(1<<_LCD_D5); else _LCD_PORT |= (1<<_LCD_D5);
+    if( (nibble & 0x04) == 0) _LCD_PORT &= ~(1<<_LCD_D6); else _LCD_PORT |= (1<<_LCD_D6);
+    if( (nibble & 0x08) == 0) _LCD_PORT &= ~(1<<_LCD_D7); else _LCD_PORT |= (1<<_LCD_D7);
     
-    if( (cmd & 1) == 0 ) LAT_D4 = 0; else LAT_D4 = 1;
-    if( (cmd & 2) == 0 ) LAT_D5 = 0; else LAT_D5 = 1;
-    if( (cmd & 4) == 0 ) LAT_D6 = 0; else LAT_D6 = 1;
-    if( (cmd & 8) == 0 ) LAT_D7 = 0; else LAT_D7 = 1;
-    
-    LAT_EN = 0;
-    LAT_EN = 1;
-    LAT_EN = 0;
-    __delay_us(300);
-    
-}
-static void Load_Data(char data){
-    LAT_RS = 1;
-    
-    if( (data & 1) == 0 ) LAT_D4 = 0; else LAT_D4 = 1;
-    if( (data & 2) == 0 ) LAT_D5 = 0; else LAT_D5 = 1;
-    if( (data & 4) == 0 ) LAT_D6 = 0; else LAT_D6 = 1;
-    if( (data & 8) == 0 ) LAT_D7 = 0; else LAT_D7 = 1;
-    
-    LAT_EN = 0;
-    LAT_EN = 1;
-    LAT_EN = 0;
+    _LCD_PORT &= ~(1<<_LCD_EN);
+    _LCD_PORT |=  (1<<_LCD_EN);
+    _LCD_PORT &= ~(1<<_LCD_EN);
     
     __delay_us(300);
-    
 }
 
-// Cremos el prototipo de funcion
-void LCD_Init(void){
-    //CONFIGURAMOS TODOS LOS PINES DE SALIDA
-    DIR_RS = 0; DIR_EN = 0; DIR_D4 = 0;
-    DIR_D5 = 0; DIR_D6 = 0; DIR_D7 = 0;
-    //INICIAMOS PUERTO EN CERO
-    LAT_EN = 0; LAT_D4 = 0; LAT_D5 = 0;
-    LAT_D6 = 0; LAT_D7 = 0;
+void  _send_byte(uint8_t value, uint8_t mode){
     
+    switch(mode){
+        case _COMMAND_: _LCD_PORT &= ~(1<<_LCD_RS); break;
+        case _DATA_:    _LCD_PORT |=  (1<<_LCD_RS); break;
+    }
+    _write_nibble(value>>4);
+    _write_nibble(value&0x0F);
+}
+
+void lcd_write(uint8_t letra){
+    _send_byte(letra,_DATA_);
+}
+void lcd_command(uint8_t cmd){
+    _send_byte(cmd,_COMMAND_);
+}
+
+void lcd_init(){
+    
+    _LCD_DDR &= ~( (1<<_LCD_RS)|
+                   (1<<_LCD_EN)|
+                   (1<<_LCD_D4)|
+                   (1<<_LCD_D5)|
+                   (1<<_LCD_D6)|
+                   (1<<_LCD_D7));
+    
+    _LCD_PORT &= ~( (1<<_LCD_RS)|
+                   (1<<_LCD_EN)|
+                   (1<<_LCD_D4)|
+                   (1<<_LCD_D5)|
+                   (1<<_LCD_D6)|
+                   (1<<_LCD_D7));
+    
+    
+   
     __delay_ms(15);
-    Load_Cmd(0x03);
+    _write_nibble(0x03);
     __delay_ms(5);
-    Load_Cmd(0x03);
+    _write_nibble(0x03);
     __delay_us(100);
-    Load_Cmd(0x03);
-    Load_Cmd(0x02);
+    _write_nibble(0x03);
+    _write_nibble(0x02);
     
-    Load_Cmd(0x02);
-    Load_Cmd(0x08);
+    lcd_command( _LCD_FUNTIONSET | _LCD_4BITMODE | _LCD_2LINE | _LCD_5x8DOTS );
+    __delay_us(37);
     
-    Load_Cmd(0x00);
-    Load_Cmd(0x0F);
+    _lcd_params = _LCD_DISPLAY_ON | _LCD_CURSOR_ON | _LCD_BLINK_ON;
+    lcd_command(_LCD_DISPLAYCONTROL | _lcd_params);
+    __delay_us(37);
     
-    Load_Cmd(0x00);
-    Load_Cmd(0x01);
-    __delay_ms(2);
-    
-}
-void LCD_Cmd(char cmd){
-    char NibbleH, NibbleL;
-    NibbleH = cmd>>4;
-    NibbleL = cmd & 0x0F;
-    Load_Cmd(NibbleH);
-    Load_Cmd(NibbleL);
+    lcd_command(_LCD_CLEARDISPLAY);
     __delay_ms(2);
 }
-void LCD_Write_Cp(char letra){
-    char NibbleH, NibbleL;
-    NibbleH = letra>>4;
-    NibbleL = letra & 0x0F;
-    Load_Data(NibbleH);
-    Load_Data(NibbleL);
-    
+
+ 
+
+void lcd_puts(char *str){
+    while(*str){
+        lcd_write(*str);
+        str++;
+    } 
 }
 
-void LCD_Write_Text_Cp(char *text){
-    
-    while(*text){
-        LCD_Write_Cp(*text);
-        text++;
+void lcd_set_cursor(uint8_t row, uint8_t col){
+	
+	switch(row){
+        case 1:  lcd_command(0x80+col-1); break;
+        case 2:  lcd_command(0xC0+col-1); break;
+        case 3:  lcd_command(0x94+col-1); break;
+        case 4:  lcd_command(0xD4+col-1); break;
     }
-    
 }
 
-void LCD_Set_Cursor(char fila, char col){
-    char pos;
-    switch(fila){
-        case 1: pos = 0x80+(col-1); break;
-        case 2: pos = 0xC0+(col-1); break;
-        case 3: pos = 0x94+(col-1); break;
-        case 4: pos = 0xD4+(col-1); break;
-    }
-    LCD_Cmd(pos);
+
+void lcd_clear(void){
+	lcd_command(_LCD_CLEARDISPLAY);
+	_delay_ms(2);
 }
-void LCD_Write(char fila, char col, char letra){
-    LCD_Set_Cursor(fila, col);
-    LCD_Write_Cp(letra);
+void lcd_return_home(void){
+	lcd_command(_LCD_RETURNHOME);
+	_delay_ms(2);
 }
-void LCD_Write_Text(char fila, char col, char *text){
-    LCD_Set_Cursor(fila, col);
-    while(*text){
-        LCD_Write_Cp(*text);
-        text++;
-    }
+
+void lcd_on(void){
+	_lcd_params |=  _LCD_DISPLAY_ON;
+	lcd_command(_LCD_DISPLAYCONTROL |_lcd_params);
+	_delay_us(37);
+}
+void lcd_off(void){
+	_lcd_params &=  ~_LCD_DISPLAY_ON;
+	lcd_command(_LCD_DISPLAYCONTROL |_lcd_params);
+	_delay_us(37);
+}
+
+void lcd_enable_blink(void){
+	_lcd_params |= _LCD_BLINK_ON;
+	lcd_command(_LCD_DISPLAYCONTROL |_lcd_params);
+	_delay_us(37);
+}
+void lcd_disable_blink(void){
+	_lcd_params &= ~_LCD_BLINK_ON;
+	lcd_command(_LCD_DISPLAYCONTROL |_lcd_params);
+	_delay_us(37);
+}
+
+void lcd_enable_cursor(void){
+	_lcd_params |= _LCD_CURSOR_ON;
+	lcd_command(_LCD_DISPLAYCONTROL |_lcd_params);
+	_delay_us(37);
+}
+void lcd_disable_cursor(void){
+	_lcd_params &= ~_LCD_CURSOR_ON;
+	lcd_command(_LCD_DISPLAYCONTROL |_lcd_params);
+	_delay_us(37);
+}
+
+void lcd_scroll_left(void){
+	 lcd_command(_LCD_CURSORDISPLAYSHIFT | _LCD_DISPLAY_SHIFT | _LCD_MOVELEFT);
+	 _delay_us(37);
+}
+void lcd_scroll_right(void){
+	 lcd_command(_LCD_CURSORDISPLAYSHIFT | _LCD_DISPLAY_SHIFT | _LCD_MOVERIGHT);
+	 _delay_us(37);
+}
+
+void lcd_custom_char(uint8_t mem, uint8_t *charmap){
+	lcd_command(_LCD_SET_CGRAM_ADDR |  ((mem&0x07)<<3) );
+	for(uint8_t i=0; i<=7; i++){
+		lcd_write(charmap[i]);
+	}
+	lcd_command(_LCD_SET_DDRAM_ADDR);
+	_delay_us(37);
+}
+void lcd_out(char row, char col, char *str){
+    lcd_set_cursor(row,col);
+    while(*str){
+        lcd_write(*str);
+        str++;
+    } 
+    
+}
+void lcd_char(char row, char col, char letra){
+    lcd_set_cursor(row,col);
+    lcd_write(letra);
 }
