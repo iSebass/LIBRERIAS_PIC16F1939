@@ -11,6 +11,13 @@
 #include <xc.h>
 #include "config.h"
 
+/*******************************           
+ *             FOSC            *
+ * FI2C = ----------------     *
+ *         (ADD_VAL+1)*4       *
+ *                             *
+ *******************************/
+
     #define SSP_ADD_VAL 19
 
 #define SCL_DIR   TRISCbits.TRISC3
